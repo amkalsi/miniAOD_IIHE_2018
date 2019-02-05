@@ -237,6 +237,36 @@ void IIHEModuleMuon::beginJob(){
   addBranch("mu_isSoftMuon"     ) ;
   addBranch("mu_isHighPtMuon"     ) ;
   addBranch("mu_isTrackerHighPtMuon"     ) ;
+
+  // new muon selectors
+
+  addBranch("mu_CutBasedIdLoose");
+addBranch("mu_CutBasedIdMedium");
+ addBranch("mu_CutBasedIdMediumPrompt");
+ addBranch("mu_CutBasedIdTight");
+ addBranch("mu_CutBasedIdGlobalHighPt");
+ addBranch("mu_CutBasedIdTrkHighPt");
+ addBranch("mu_PFIsoVeryLoose");
+ addBranch("mu_PFIsoLoose");
+ addBranch("mu_PFIsoMedium");
+ addBranch("mu_PFIsoTight");
+ addBranch("mu_PFIsoVeryTight");
+ addBranch("mu_PFIsoVeryVeryTight");
+ addBranch("mu_TkIsoLoose");
+ addBranch("mu_TkIsoTight");
+ addBranch("mu_SoftCutBasedId");
+ addBranch("mu_SoftMvaId");
+ addBranch("mu_MvaLoose");
+ addBranch("mu_MvaMedium");
+ addBranch("mu_MvaTight");
+ addBranch("mu_MiniIsoLoose");
+ addBranch("mu_MiniIsoMedium");
+ addBranch("mu_MiniIsoTight");
+ addBranch("mu_MiniIsoVeryTight");
+ addBranch("mu_TriggerIdLoose");
+ addBranch("mu_InTimeMuon");
+ addBranch("mu_MultiIsoLoose");
+ addBranch("mu_MultiIsoMedium");
   
   // Hits block
   setBranchType(kVectorInt) ;
@@ -514,6 +544,35 @@ void IIHEModuleMuon::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     store("mu_pfIsoDbCorrected03" , (muIt->pfIsolationR03().sumChargedHadronPt + max(0., muIt->pfIsolationR03().sumNeutralHadronEt + muIt->pfIsolationR03().sumPhotonEt - 0.5*muIt->pfIsolationR03().sumPUPt))/muIt->pt()          ) ;
     store("mu_pfIsoDbCorrected04" , (muIt->pfIsolationR04().sumChargedHadronPt + max(0., muIt->pfIsolationR04().sumNeutralHadronEt + muIt->pfIsolationR04().sumPhotonEt - 0.5*muIt->pfIsolationR04().sumPUPt))/muIt->pt()         ) ;
     store("mu_isoTrackerBased03"  , muIt->isolationR03().sumPt/muIt->pt()          ) ;
+ 
+// new muon selectors addition
+    store("mu_CutBasedIdLoose"    ,  int(muIt->passed(reco::Muon::CutBasedIdLoose)));
+    store("mu_CutBasedIdMedium"    ,  int(muIt->passed(reco::Muon::CutBasedIdMedium)));
+    store("mu_CutBasedIdMediumPrompt",  int(muIt->passed(reco::Muon::CutBasedIdMediumPrompt)));
+    store("mu_CutBasedIdTight", int(muIt->passed(reco::Muon::CutBasedIdTight)));
+    store("mu_CutBasedIdGlobalHighPt" , int(muIt->passed(reco::Muon::CutBasedIdGlobalHighPt)));
+    store("mu_CutBasedIdTrkHighPt",  int(muIt->passed(reco::Muon::CutBasedIdTrkHighPt)));
+    store("mu_PFIsoVeryLoose",  int(muIt->passed(reco::Muon::PFIsoVeryLoose)));
+    store("mu_PFIsoLoose", int(muIt->passed(reco::Muon::PFIsoLoose)));
+    store("mu_PFIsoMedium", int(muIt->passed(reco::Muon::PFIsoMedium)));
+    store("mu_PFIsoTight", int(muIt->passed(reco::Muon::PFIsoTight)));
+    store("mu_PFIsoVeryTight", int(muIt->passed(reco::Muon::PFIsoVeryTight)));
+    store("mu_PFIsoVeryVeryTight", int(muIt->passed(reco::Muon::PFIsoVeryVeryTight)));
+    store("mu_TkIsoLoose", int(muIt->passed(reco::Muon::TkIsoLoose)));
+    store("mu_TkIsoTight", int(muIt->passed(reco::Muon::TkIsoTight)));
+    store("mu_SoftCutBasedId", int(muIt->passed(reco::Muon::SoftCutBasedId)));
+    store("mu_SoftMvaId", int(muIt->passed(reco::Muon::SoftMvaId)));
+    store("mu_MvaLoose",int(muIt->passed(reco::Muon::MvaLoose)));
+    store("mu_MvaMedium", int(muIt->passed(reco::Muon::MvaMedium)));
+    store("mu_MvaTight", int(muIt->passed(reco::Muon::MvaTight)));
+    store("mu_MiniIsoLoose", int(muIt->passed(reco::Muon::MiniIsoLoose)));
+    store("mu_MiniIsoMedium", int(muIt->passed(reco::Muon::MiniIsoMedium)));
+    store("mu_MiniIsoTight", int(muIt->passed(reco::Muon::MiniIsoTight)));
+    store("mu_MiniIsoVeryTight", int(muIt->passed(reco::Muon::MiniIsoVeryTight)));
+    store("mu_TriggerIdLoose", int(muIt->passed(reco::Muon::TriggerIdLoose)));
+    store("mu_InTimeMuon", int(muIt->passed(reco::Muon::InTimeMuon)));
+    store("mu_MultiIsoLoose", int(muIt->passed(reco::Muon::MultiIsoLoose)));
+    store("mu_MultiIsoMedium", int(muIt->passed(reco::Muon::MultiIsoMedium)));
 
     if (isMC_){ 
     // Now apply truth matching.
