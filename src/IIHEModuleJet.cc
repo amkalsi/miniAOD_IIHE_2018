@@ -52,6 +52,12 @@ void IIHEModuleJet::beginJob(){
   addBranch("jet_CvsL");
   addBranch("jet_CvsB");
   addBranch("jet_MVA2BJets");
+  addBranch("jet_CvsB_DeepJet_charm_tagger");
+  addBranch("jet_CvsL_DeepJet_charm_tagger");
+  addBranch("jet_CvsB_DeepCSV_charm_tagger");
+  addBranch("jet_CvsL_DeepCSV_charm_tagger");
+  addBranch("jet_DeepJet");
+  addBranch("jet_DeepCSV");
   setBranchType(kVectorInt);
   addBranch("jet_isJetIDLoose");
   addBranch("jet_isJetIDTight");
@@ -132,6 +138,18 @@ void IIHEModuleJet::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     store("jet_CvsL",pfjet->bDiscriminator("pfCombinedCvsLJetTags"));
     store("jet_CvsB",pfjet->bDiscriminator("pfCombinedCvsBJetTags"));
     store("jet_MVA2BJets", pfjet->bDiscriminator("pfCombinedMVAV2BJetTags"));
+    store("jet_DeepCSV", pfjet->bDiscriminator("pfDeepCSVJetTags:probb") + pfjet->bDiscriminator("pfDeepCSVJetTags:probbb"));
+    store("jet_DeepJet", pfjet->bDiscriminator("pfDeepFlavourJetTags:probb") + pfjet->bDiscriminator("pfDeepFlavourJetTags:probbb") + pfjet->bDiscriminator("pfDeepFlavourJetTags:problepb"));
+    store("jet_CvsL_DeepCSV_charm_tagger", pfjet->bDiscriminator("pfDeepCSVJetTags:probc")/(pfjet->bDiscriminator("pfDeepCSVJetTags:probc") + pfjet->bDiscriminator("pfDeepCSVJetTags:probudsg")));
+
+    store("jet_CvsB_DeepCSV_charm_tagger", pfjet->bDiscriminator("pfDeepCSVJetTags:probc")/(pfjet->bDiscriminator("pfDeepCSVJetTags:probc")+pfjet->bDiscriminator("pfDeepCSVJetTags:probb")+pfjet->bDiscriminator("pfDeepCSVJetTags:probbb")));
+
+    store("jet_CvsL_DeepJet_charm_tagger", pfjet->bDiscriminator("pfDeepFlavourJetTags:probc")/(pfjet->bDiscriminator("pfDeepFlavourJetTags:probc")+pfjet->bDiscriminator("pfDeepFlavourJetTags:probuds")+pfjet->bDiscriminator("pfDeepFlavourJetTags:probg")));
+
+    store("jet_CvsB_DeepJet_charm_tagger", pfjet->bDiscriminator("pfDeepFlavourJetTags:probc")/(pfjet->bDiscriminator("pfDeepFlavourJetTags:probc")+pfjet->bDiscriminator("pfDeepFlavourJetTags:probb")+pfjet->bDiscriminator("pfDeepFlavourJetTags:probbb")+ pfjet->bDiscriminator("pfDeepFlavourJetTags:problepb")));
+
+
+ 
     float eta = pfjet->eta();
     float NHF = pfjet->neutralHadronEnergyFraction();
     float NEMF = pfjet->neutralEmEnergyFraction();
