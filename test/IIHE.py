@@ -110,7 +110,7 @@ process.source = cms.Source("PoolSource",
 #process.source.fileNames.append( "file:2018data.root" )
 #process.source.fileNames.append( "file:legacyData.root" )
 #process.source.fileNames.append( "file:RunA_numEvent1000.root" )
-process.source.fileNames.append( "file:RunC_17Sep_numEvent20001.root" )
+process.source.fileNames.append( "/store/mc/RunIIAutumn18MiniAOD/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/00000/6EE992F9-EA1C-0943-A593-70BEA4B4E206.root" )
 ###
 filename_out = "outfile.root"
 if options.DataFormat == "mc" and not options.grid:
@@ -122,6 +122,35 @@ if options.DataFormat == "data" and not options.grid:
 #filename_out = "outfile.root"
 process.out = cms.OutputModule("PoolOutputModule", fileName = cms.untracked.string(filename_out) )
 process.TFileService = cms.Service("TFileService", fileName = cms.string(filename_out) )
+
+
+##########################################################################################
+#                                   MET filters    .                                     #
+##########################################################################################
+process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
+
+baddetEcallist = cms.vuint32(
+    [872439604,872422825,872420274,872423218,
+     872423215,872416066,872435036,872439336,
+     872420273,872436907,872420147,872439731,
+     872436657,872420397,872439732,872439339,
+     872439603,872422436,872439861,872437051,
+     872437052,872420649,872422436,872421950,
+     872437185,872422564,872421566,872421695,
+     872421955,872421567,872437184,872421951,
+     872421694,872437056,872437057,872437313])
+
+
+process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+    "EcalBadCalibFilter",
+    EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+    ecalMinEt        = cms.double(50.),
+    baddetEcal    = baddetEcallist, 
+    taggingMode = cms.bool(True),
+    debug = cms.bool(False)
+)
+
+
 
 
 ##########################################################################################
@@ -237,6 +266,7 @@ process.IIHEAnalysis.includeAutoAcceptEventModule                = cms.untracked
 
 process.IIHEAnalysis.calibratedElectronCollection    = cms.InputTag("slimmedElectrons")
 process.p1 = cms.Path(
+    process.ecalBadCalibReducedMINIAODFilter *
     process.rerunMvaIsolationSequence *
     process.NewTauIDsEmbedded *
     process.egmGsfElectronIDSequence * 

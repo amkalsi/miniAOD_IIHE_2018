@@ -93,6 +93,7 @@ public:
 private:
 
  edm::EDGetTokenT<edm::View<pat::MET> > pfMETToken_;
+ edm::EDGetTokenT< bool >               pfMETTokenFilter_;
  edm::EDGetTokenT<edm::View<pat::MET> > patPFMetCollectionToken_;
  edm::EDGetTokenT<edm::View<pat::MET> > patPFMetT1CollectionToken_;
  edm::EDGetTokenT<edm::View<pat::MET> > patPFMetT1JetEnDownCollectionToken_;
@@ -108,6 +109,7 @@ private:
 
   IIHEMETWrapper* metnominalWrapper_;
   IIHEMETWrapper* metWrapper_ ;
+  IIHEMETWrapper* metWrapperEE_;
   IIHEMETWrapper* metT1Wrapper_;
   IIHEMETWrapper* metT1JetEnDownWrapper_;
   IIHEMETWrapper* metT1JetEnUpWrapper_;
