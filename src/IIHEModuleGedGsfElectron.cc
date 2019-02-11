@@ -442,7 +442,7 @@ void IIHEModuleGedGsfElectron::analyze(const edm::Event& iEvent, const edm::Even
     store("gsf_trackerdrivenSeed"             , int(gsfiter->trackerDrivenSeed())             ) ;
     store("gsf_isEB"                          , int(gsfiter->isEB())                          ) ;
     store("gsf_isEE"                          , int(gsfiter->isEE())                          ) ;
-    store("gsf_passConversionVeto"            , gsfiter->passConversionVeto()            ) ;
+    store("gsf_passConversionVeto"            , int(gsfiter->passConversionVeto())            ) ;
     store("gsf_deltaEtaSeedClusterTrackAtCalo", gsfiter->deltaEtaSeedClusterTrackAtCalo()) ;
     store("gsf_deltaPhiSeedClusterTrackAtCalo", gsfiter->deltaPhiSeedClusterTrackAtCalo()) ;
     store("gsf_ecalEnergy"                    , gsfiter->ecalEnergy()                    ) ;
